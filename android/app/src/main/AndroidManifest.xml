@@ -1,6 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.flutter_firebase_blog">
    <application
+        android:usesCleartextTraffic="true"
         android:label="flutter_firebase_blog"
         android:icon="@mipmap/ic_launcher">
         <activity
