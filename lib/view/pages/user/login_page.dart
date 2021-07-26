@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_blog/controller/user/user_controller.dart';
+import 'package:flutter_firebase_blog/main.dart';
 import 'package:flutter_firebase_blog/util/validator_util.dart';
 import 'package:flutter_firebase_blog/view/components/custom_elevated_button.dart';
 import 'package:flutter_firebase_blog/view/components/custom_text_form_field.dart';
@@ -54,7 +55,7 @@ class LoginPage extends StatelessWidget {
       onTap: () async {
         int? result = await UserController.to.googleLogin();
         if (result != 1) {
-          CircularProgressIndicator();
+          Get.to(Splash());
         }
       },
       child: Container(

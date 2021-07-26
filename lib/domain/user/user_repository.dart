@@ -9,7 +9,7 @@ import 'package:google_sign_in/google_sign_in.dart';
 class UserRepository {
   final UserProvider _userProvider = UserProvider();
 
-  Future<String> googleLogin() async {
+  Future<Map<String, dynamic>> googleLogin() async {
     GoogleSignInAccount? googleUser = await _userProvider.googleLogin();
     GoogleSignInAuthentication googleAuth = await googleUser!.authentication;
     final credential = GoogleAuthProvider.credential(
@@ -26,9 +26,10 @@ class UserRepository {
         photoUrl: "photoUrl",
       );
       await _userProvider.joinDetail(_newUser);
-      return "success";
+
+      return {"success": _newUser};
     } on FirebaseAuthException catch (e) {
-      return e.code;
+      return {"fail": e};
     }
   }
 

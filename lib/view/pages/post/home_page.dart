@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_blog/controller/auth_controller.dart';
+import 'package:flutter_firebase_blog/domain/user/user.dart';
 import 'package:flutter_firebase_blog/view/pages/user/login_page.dart';
+import 'package:flutter_firebase_blog/view/pages/user/user_info.dart';
 import 'package:flutter_firebase_blog/view/size/size.dart';
 import 'package:get/get.dart';
 
@@ -10,6 +12,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       appBar: AppBar(),
       drawer: _navigation(context),
       body: Center(
@@ -44,12 +47,13 @@ class HomePage extends StatelessWidget {
               ),
               Divider(),
               TextButton(
-                onPressed: () {
+                onPressed: () async {
                   // 페이지 이동할때 drawer 비활성화
                   // Navigator.pop(context); // 제일 위에 쌓인 stack 제거
                   scaffoldKey.currentState!
                       .openEndDrawer(); // scaffold key를 통해 제거
-                  // Get.to(() => UserInfo());
+                  UserModel user = await AuthController.to.getFirestoreUser();
+                  Get.to(() => UserInfo(), arguments: user);
                 },
                 child: Text(
                   '회원정보보기',

@@ -4,11 +4,7 @@ class UserModel {
   final String? name;
   final String? photoUrl;
 
-  UserModel(
-      {required this.uid,
-      required this.email,
-      required this.name,
-      required this.photoUrl});
+  UserModel({this.uid, this.email, this.name, this.photoUrl});
 
   factory UserModel.fromMap(Map data) {
     return UserModel(
