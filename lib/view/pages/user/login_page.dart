@@ -3,7 +3,9 @@ import 'package:flutter_firebase_blog/controller/user/user_controller.dart';
 import 'package:flutter_firebase_blog/util/validator_util.dart';
 import 'package:flutter_firebase_blog/view/components/custom_elevated_button.dart';
 import 'package:flutter_firebase_blog/view/components/custom_text_form_field.dart';
+import 'package:flutter_firebase_blog/view/constants/colors.dart';
 import 'package:flutter_firebase_blog/view/pages/user/join_page.dart';
+import 'package:flutter_firebase_blog/view/size/size.dart';
 import 'package:get/get.dart';
 
 class LoginPage extends StatelessWidget {
@@ -27,6 +29,13 @@ class LoginPage extends StatelessWidget {
                 style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
               ),
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                _socialLoginButton(context, "google"),
+                _socialLoginButton(context, "apple"),
+              ],
+            ),
             _loginForm(),
             TextButton(
               onPressed: () {
@@ -35,6 +44,34 @@ class LoginPage extends StatelessWidget {
               child: Text("아직 회원가입이 안되어 있나요?"),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _socialLoginButton(BuildContext context, String social) {
+    return InkWell(
+      onTap: () async {
+        int? result = await UserController.to.googleLogin();
+        if (result != 1) {
+          CircularProgressIndicator();
+        }
+      },
+      child: Container(
+        width: getGoogleOrAppleIconWidth(context),
+        padding: EdgeInsets.all(15),
+        decoration: BoxDecoration(
+          color: ContainerColor,
+          border: Border.all(width: 2, color: BorderColor),
+          borderRadius: BorderRadius.circular(15),
+        ),
+        child: Container(
+          width: 30,
+          height: 30,
+          child: Image.asset(
+            'assets/images/$social.png',
+            color: Colors.white,
+          ),
         ),
       ),
     );

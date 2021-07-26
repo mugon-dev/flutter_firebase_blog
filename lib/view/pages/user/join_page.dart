@@ -60,7 +60,7 @@ class JoinPage extends StatelessWidget {
             funValidator: validatorPassword(),
           ),
           CustomElevatedButton(
-            text: "회원가",
+            text: "회원가입",
             funPageRoute: () async {
               _formkey.currentState!.validate();
               UserController.to.join(_username.text.trim(), _email.text.trim(),

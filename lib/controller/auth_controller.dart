@@ -22,9 +22,9 @@ class AuthController extends GetxController {
 
   handleAuthChanged(_firebaseUser) async {
     //get user data from firestore
-    // if (_firebaseUser?.uid != null) {
-    //   firestoreUser.bindStream(streamFirestoreUser());
-    // }
+    if (_firebaseUser?.uid != null) {
+      firestoreUser.bindStream(streamFirestoreUser());
+    }
     if (_firebaseUser == null) {
       Get.offAll(() => LoginPage());
     } else {
