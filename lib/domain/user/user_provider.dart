@@ -3,6 +3,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_firebase_blog/controller/dto/user/JoinReqDto.dart';
 import 'package:flutter_firebase_blog/controller/dto/user/LoginReqDto.dart';
+import 'package:flutter_firebase_blog/controller/dto/user/UpdateReqDto.dart';
 import 'package:flutter_firebase_blog/domain/user/user.dart';
 import 'package:flutter_firebase_blog/settings/firebase.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -21,4 +22,7 @@ class UserProvider {
 
   Future<GoogleSignInAccount?> googleLogin() async =>
       await GoogleSignIn().signIn();
+
+  Future<void> updateUserDetail(UpdateReqDto user) async =>
+      await firebaseFirestore.doc('/users/${user.uid}').update(user.toJson());
 }

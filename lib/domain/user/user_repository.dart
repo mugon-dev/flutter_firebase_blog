@@ -2,12 +2,18 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_firebase_blog/controller/dto/user/JoinReqDto.dart';
 import 'package:flutter_firebase_blog/controller/dto/user/LoginReqDto.dart';
+import 'package:flutter_firebase_blog/controller/dto/user/UpdateReqDto.dart';
 import 'package:flutter_firebase_blog/domain/user/user.dart';
 import 'package:flutter_firebase_blog/domain/user/user_provider.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class UserRepository {
   final UserProvider _userProvider = UserProvider();
+
+  Future<void> updateUserDetail(String nickname, String uid) async {
+    UpdateReqDto updateUser = UpdateReqDto(nickname: nickname, uid: uid);
+    await _userProvider.updateUserDetail(updateUser);
+  }
 
   Future<Map<String, dynamic>> googleLogin() async {
     GoogleSignInAccount? googleUser = await _userProvider.googleLogin();
@@ -23,6 +29,7 @@ class UserRepository {
         uid: userCredential.user!.uid,
         email: userCredential.user!.email,
         name: userCredential.user!.displayName,
+        nickname: userCredential.user!.displayName,
         photoUrl: "photoUrl",
       );
       await _userProvider.joinDetail(_newUser);
@@ -51,6 +58,7 @@ class UserRepository {
         uid: userCredential.user!.uid,
         email: email,
         name: username,
+        nickname: username,
         photoUrl: "photoUrl",
       );
       await _userProvider.joinDetail(_newUser);

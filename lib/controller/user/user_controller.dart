@@ -7,6 +7,10 @@ class UserController extends GetxController {
   final UserRepository _userRepository = UserRepository();
   final principal = UserModel().obs;
 
+  Future<void> updateUserDetail(String nickname, String uid) async {
+    await _userRepository.updateUserDetail(nickname, uid);
+  }
+
   Future<int?> googleLogin() async {
     Map<String, dynamic> result = await _userRepository.googleLogin();
     if (result.containsKey("success")) {
