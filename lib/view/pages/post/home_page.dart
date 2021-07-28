@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_firebase_blog/controller/auth_controller.dart';
+import 'package:flutter_firebase_blog/controller/post/post_controller.dart';
 import 'package:flutter_firebase_blog/domain/user/user.dart';
+import 'package:flutter_firebase_blog/view/pages/post/write_page.dart';
 import 'package:flutter_firebase_blog/view/pages/user/login_page.dart';
 import 'package:flutter_firebase_blog/view/pages/user/user_info.dart';
 import 'package:flutter_firebase_blog/view/size/size.dart';
@@ -8,17 +10,27 @@ import 'package:get/get.dart';
 
 class HomePage extends StatelessWidget {
   var scaffoldKey = GlobalKey<ScaffoldState>();
-
+  PostController postController = Get.put(PostController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      key: scaffoldKey,
-      appBar: AppBar(),
-      drawer: _navigation(context),
-      body: Center(
-        child: Text("home"),
-      ),
-    );
+        key: scaffoldKey,
+        appBar: AppBar(),
+        drawer: _navigation(context),
+        body: ListView.separated(
+            itemBuilder: (context, index) {
+              return ListTile(
+                onTap: () {
+                  postController.findAll();
+                },
+                title: Text("title"),
+                leading: Text("$index"),
+              );
+            },
+            separatorBuilder: (context, index) {
+              return Divider();
+            },
+            itemCount: 2));
   }
 
   Widget _navigation(BuildContext context) {
@@ -34,7 +46,10 @@ class HomePage extends StatelessWidget {
             children: [
               TextButton(
                 onPressed: () {
-                  // Get.to(() => WritePage());
+                  // binding 연습삼아
+                  Get.to(() => WritePage(), binding: BindingsBuilder(() {
+                    Get.put(PostController());
+                  }));
                 },
                 child: Text(
                   '글쓰기',
