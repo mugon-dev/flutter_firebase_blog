@@ -1,3 +1,4 @@
+import 'package:flutter_firebase_blog/domain/post/post.dart';
 import 'package:flutter_firebase_blog/domain/post/post_repository.dart';
 import 'package:flutter_firebase_blog/domain/user/user.dart';
 import 'package:get/get.dart';
@@ -5,9 +6,12 @@ import 'package:get/get.dart';
 class PostController extends GetxController {
   static PostController get to => Get.find();
   final _postRepository = PostRepository();
+  final posts = <Post>[].obs;
+  final post = Post().obs;
 
   Future<void> findAll() async {
-    await _postRepository.findAll();
+    List<Post> posts = await _postRepository.findAll();
+    this.posts.value = posts;
   }
 
   Future<void> insert({

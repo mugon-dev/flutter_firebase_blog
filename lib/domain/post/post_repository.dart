@@ -6,9 +6,10 @@ import 'package:flutter_firebase_blog/domain/user/user.dart';
 class PostRepository {
   final _postProvider = PostProvider();
 
-  Future<void> findAll() async {
+  Future<List<Post>> findAll() async {
     List<QueryDocumentSnapshot<Post>> posts = await _postProvider.findAll();
-    print(posts.toString());
+    List<Post> result = posts.map((e) => e.data()).toList();
+    return result;
   }
 
   Future<void> insert({

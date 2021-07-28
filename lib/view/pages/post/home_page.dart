@@ -10,27 +10,38 @@ import 'package:get/get.dart';
 
 class HomePage extends StatelessWidget {
   var scaffoldKey = GlobalKey<ScaffoldState>();
+  var refreshKey = GlobalKey<RefreshIndicatorState>();
   PostController postController = Get.put(PostController());
   @override
   Widget build(BuildContext context) {
+    postController.findAll();
     return Scaffold(
-        key: scaffoldKey,
-        appBar: AppBar(),
-        drawer: _navigation(context),
-        body: ListView.separated(
-            itemBuilder: (context, index) {
-              return ListTile(
-                onTap: () {
-                  postController.findAll();
-                },
-                title: Text("title"),
-                leading: Text("$index"),
-              );
-            },
-            separatorBuilder: (context, index) {
-              return Divider();
-            },
-            itemCount: 2));
+      key: scaffoldKey,
+      appBar: AppBar(),
+      drawer: _navigation(context),
+      body: Obx(
+        () => RefreshIndicator(
+          key: refreshKey,
+          onRefresh: () async {
+            await postController.findAll();
+          },
+          child: ListView.separated(
+              itemBuilder: (context, index) {
+                return ListTile(
+                  onTap: () {
+                    postController.findAll();
+                  },
+                  title: Text("${postController.posts[index].title}"),
+                  leading: Text("$index"),
+                );
+              },
+              separatorBuilder: (context, index) {
+                return Divider();
+              },
+              itemCount: postController.posts.length),
+        ),
+      ),
+    );
   }
 
   Widget _navigation(BuildContext context) {

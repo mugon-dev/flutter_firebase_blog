@@ -1,5 +1,4 @@
 import 'package:flutter_firebase_blog/domain/user/user.dart';
-import 'package:intl/intl.dart';
 
 class Post {
   final String? title;
@@ -20,8 +19,8 @@ class Post {
       : title = json['title'],
         content = json['content'],
         user = UserModel.fromMap(json['user']),
-        created = DateFormat("yyyy-mm-dd").parse(json['created']),
-        updated = DateFormat("yyyy-mm-dd").parse(json['updated']);
+        created = json['created'].toDate(),
+        updated = json['updated'].toDate();
 
   Map<String, Object?> toJson() {
     return {
