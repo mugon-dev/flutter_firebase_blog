@@ -31,7 +31,8 @@ class HomePage extends StatelessWidget {
                   onTap: () {
                     postController.findAll();
                   },
-                  title: Text("${postController.posts[index].title}"),
+                  title: Text(
+                      "${postController.posts[index].title} : ${postController.posts[index].id}"),
                   leading: Text("$index"),
                 );
               },

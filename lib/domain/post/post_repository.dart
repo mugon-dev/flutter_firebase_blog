@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_firebase_blog/controller/dto/post/PostResDto.dart';
 import 'package:flutter_firebase_blog/domain/post/post.dart';
 import 'package:flutter_firebase_blog/domain/post/post_provider.dart';
 import 'package:flutter_firebase_blog/domain/user/user.dart';
@@ -6,9 +7,18 @@ import 'package:flutter_firebase_blog/domain/user/user.dart';
 class PostRepository {
   final _postProvider = PostProvider();
 
-  Future<List<Post>> findAll() async {
+  Future<List<PostResDto>> findAll() async {
     List<QueryDocumentSnapshot<Post>> posts = await _postProvider.findAll();
-    List<Post> result = posts.map((e) => e.data()).toList();
+    List<PostResDto> result = posts
+        .map((e) => PostResDto(
+            id: e.reference.id,
+            title: e.data().title,
+            content: e.data().content,
+            user: e.data().user,
+            created: e.data().created,
+            updated: e.data().updated))
+        .toList();
+    print(posts.map((e) => e.reference.id));
     return result;
   }
 

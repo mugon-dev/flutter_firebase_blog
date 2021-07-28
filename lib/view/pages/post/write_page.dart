@@ -45,6 +45,7 @@ class WritePage extends GetView<PostController> {
                         user: AuthController.to.firestoreUser()!);
                     Get.to(() => HomePage());
                   }),
+              SizedBox(height: 15),
               CustomElevatedButton(text: "취소", funPageRoute: () {}),
             ],
           ),
